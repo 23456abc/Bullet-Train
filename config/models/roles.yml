@@ -1,5 +1,13 @@
 default:
   models:
+    Block: read
+    Folder: read
+    Site: read
+    Page: read
+    Entry: read
+    Projects::Tag: read
+    Goal: read
+    Project: read
     Team: read
     Membership:
       - read
@@ -28,6 +36,14 @@ admin:
     - admin
     - editor
   models:
+    Block: manage
+    Folder: manage
+    Site: manage
+    Page: manage
+    Entry: manage
+    Projects::Tag: manage
+    Goal: manage
+    Project: manage
     Team: manage
     Membership: manage
     Scaffolding::AbsolutelyAbstract::CreativeConcept: manage

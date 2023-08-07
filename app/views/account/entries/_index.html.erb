@@ -1,0 +1,65 @@
+<% entries = entries.accessible_by(current_ability) %>
+<% team = @team %>
+<% context ||= team %>
+<% collection ||= :entries %>
+<% hide_actions ||= false %>
+<% hide_back ||= false %>
+
+<% pagy ||= nil %>
+<% pagy, entries = pagy(entries, page_param: :entries_page) unless pagy %>
+
+<%= action_model_select_controller do %>
+  <% updates_for context, collection do %>
+    <%= render 'account/shared/box', pagy: pagy do |box| %>
+      <% box.title t(".contexts.#{context.class.name.underscore}.header") %>
+      <% box.description do %>
+        <%= t(".contexts.#{context.class.name.underscore}.description#{"_empty" unless entries.any?}") %>
+        <%= render "shared/limits/index", model: entries.model %>
+      <% end %>
+
+      <% box.table do %>
+        <% if entries.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <%= render "shared/tables/select_all" %>
+                <th><%= t('.fields.entryable_type.heading') %></th>
+                <%# 🚅 super scaffolding will insert new field headers above this line. %>
+                <th><%= t('.fields.created_at.heading') %></th>
+                <th class="text-right"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% entries.each do |entry| %>
+                <%= render 'account/entries/entry', entry: entry %>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      <% end %>
+
+      <% box.actions do %>
+        <% unless hide_actions %>
+          <% if context == team %>
+            <% if can? :create, Entry.new(team: team) %>
+              <%= link_to t('.buttons.new'), [:new, :account, team, :entry], class: "#{first_button_primary(:entry)} new" %>
+            <% end %>
+          <% end %>
+
+          <%# 🚅 super scaffolding will insert new targets one parent action model buttons above this line. %>
+          <%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>
+          <%= render "shared/bulk_action_select" %>
+
+
+          <% unless hide_back %>
+            <%= link_to t('global.buttons.back'), [:account, context], class: "#{first_button_primary(:entry)} back" %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% box.raw_footer do %>
+        <%# 🚅 super scaffolding will insert new action model index views above this line. %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

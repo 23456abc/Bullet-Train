@@ -1,0 +1,8 @@
+<% folder ||= @folder %>
+<% office ||= @office || folder&.office %>
+<%= render 'account/offices/breadcrumbs', office: office %>
+<%= render 'account/shared/breadcrumb', label: t('.label'), url: [:account, office, :folders] %>
+<% if folder&.persisted? %>
+  <%= render 'account/shared/breadcrumb', label: folder.label_string, url: [:account, folder] %>
+<% end %>
+<%= render 'account/shared/breadcrumbs/actions', only_for: 'folders' %>

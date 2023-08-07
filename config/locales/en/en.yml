@@ -1,1 +1,23 @@
 en:
+  account:
+    projects:
+      index:
+        fields:
+          lead:
+            heading: "Lead Heading"
+  # account:
+    entries:
+      new:
+        buttons:
+          next: "button next"
+
+  projects:
+    fields:
+      lead:
+        heading: "lead heading"
+
+    
+
+# en.account.sites.index.contexts.nil_class.header
+# account.projects.index.fields.lead.heading
+# account.entries.new.buttons.nex

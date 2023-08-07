@@ -1,0 +1,13 @@
+en:
+  messages: &messages
+    fields:
+      subject:
+        _: &subject Subject
+        label: *subject
+        heading: *subject
+  account:
+    messages: *messages
+  activerecord:
+    attributes:
+      message:
+        subject: *subject

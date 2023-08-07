@@ -20,6 +20,14 @@ components:
     <%= automatic_components_for Webhooks::Outgoing::Endpoint %>
     <%= automatic_components_for Webhooks::Outgoing::Event %>
     <%= automatic_components_for Scaffolding::CompletelyConcrete::TangibleThing unless scaffolding_things_disabled? %>
+    <%= automatic_components_for Project %>
+    <%= automatic_components_for Goal %>
+    <%= automatic_components_for Projects::Tag %>
+    <%= automatic_components_for Entry %>
+    <%= automatic_components_for Page %>
+    <%= automatic_components_for Site %>
+    <%= automatic_components_for Folder %>
+    <%= automatic_components_for Block %>
     <%# 🚅 super scaffolding will insert new components above this line. %>
   parameters:
     id:
@@ -52,4 +60,12 @@ paths:
   <%= automatic_paths_for Webhooks::Outgoing::Endpoint, Team %>
   <%= automatic_paths_for Webhooks::Outgoing::Event, Team, except: %i[create update delete] %>
   <%= automatic_paths_for Scaffolding::CompletelyConcrete::TangibleThing, Scaffolding::AbsolutelyAbstract::CreativeConcept unless scaffolding_things_disabled? %>
+  <%= automatic_paths_for Project, Team %>
+  <%= automatic_paths_for Goal, Project %>
+  <%= automatic_paths_for Projects::Tag, Team %>
+  <%= automatic_paths_for Entry, Team %>
+  <%= automatic_paths_for Page, Site %>
+  <%= automatic_paths_for Site, Team %>
+  <%= automatic_paths_for Folder, Office %>
+  <%= automatic_paths_for Block, Project %>
   <%# 🚅 super scaffolding will insert new paths above this line. %>

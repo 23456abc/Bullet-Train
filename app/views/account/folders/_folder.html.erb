@@ -1,0 +1,26 @@
+<% office = @office || @office %>
+<% context ||= office %>
+<% collection ||= :folders %>
+<% hide_actions ||= false %>
+<% hide_back ||= false %>
+
+<% with_attribute_settings object: folder do %>
+  <tr data-id="<%= folder.id %>">
+    <%= render "shared/tables/checkbox", object: folder %>
+    <td><%= render 'shared/attributes/text', attribute: :name, url: [:account, folder] %></td>
+    <td><%= render 'shared/attributes/text', attribute: :path %></td>
+    <%# 🚅 super scaffolding will insert new fields above this line. %>
+    <td><%= render 'shared/attributes/date_and_time', attribute: :created_at %></td>
+    <td class="buttons">
+      <% unless hide_actions %>
+        <% if can? :edit, folder %>
+          <%= link_to t('.buttons.shorthand.edit'), [:edit, :account, folder], class: 'button-secondary button-smaller' %>
+        <% end %>
+        <% if can? :destroy, folder %>
+          <%= button_to t('.buttons.shorthand.destroy'), [:account, folder], method: :delete, data: { confirm: t('.buttons.confirmations.destroy', model_locales(folder)) }, class: 'button-secondary button-smaller' %>
+        <% end %>
+        <%# 🚅 super scaffolding will insert new action model buttons above this line. %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

@@ -1,0 +1,94 @@
+en:
+  folders: &folders
+    label: &label Folders
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-puzzle-piece
+    buttons: &buttons
+      new: Add New Folder
+      create: Create Folder
+      edit: Edit Folder
+      update: Update Folder
+      destroy: Remove Folder
+      shorthand:
+        edit: Edit
+        destroy: Delete
+      confirmations:
+        # TODO customize for your use-case.
+        destroy: Are you sure you want to remove %{folder_name}? This will also remove any child resources and can't be undone.
+    fields: &fields
+      id:
+        heading: Folder ID
+      office_id:
+        heading: Office ID
+      name:
+        _: &name Name
+        label: *name
+        heading: *name
+      path:
+        _: &path Path
+        label: *path
+        heading: *path
+      # 🚅 super scaffolding will insert new fields above this line.
+      created_at:
+        _: &created_at Added
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Updated
+        label: *updated_at
+        heading: *updated_at
+    api:
+      collection_actions: "Collection Actions for Folders"
+      index: "List Folders"
+      create: "Add a New Folder"
+      member_actions: "Actions for an Individual Folder"
+      show: "Retrieve a Folder"
+      update: "Update a Folder"
+      destroy: "Delete a Folder"
+      fields: *fields
+    index:
+      section: "%{offices_possessive} Folders"
+      contexts:
+        office:
+          header: Folders
+          description: Below is a list of Folders that have been added for %{office_name}.
+          description_empty: No Folders have been added for %{office_name}.
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{folder_name}"
+      header: Folder Details
+      description: Below are the details we have for %{folder_name}.
+      manage_description: You'll also find options for updating these details or removing %{folder_name} from %{office_name} entirely.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "New Folder for %{office_name}"
+      header: New Folder Details
+      description: Please provide the details of the new Folder you'd like to add to %{office_name}.
+      form: *form
+    edit:
+      section: "%{folder_name}"
+      header: Edit Folder Details
+      description: You can update the details or settings for %{folder_name} below.
+      form: *form
+    notifications:
+      created: Folder was successfully created.
+      updated: Folder was successfully updated.
+      destroyed: Folder was successfully destroyed.
+  account:
+    folders: *folders
+  activerecord:
+    attributes:
+      folder:
+        name: *name
+        path: *path
+        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        created_at: *created_at
+        updated_at: *updated_at

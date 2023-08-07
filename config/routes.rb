@@ -3,6 +3,11 @@ Rails.application.routes.draw do
   draw "concerns"
   draw "devise"
   draw "sidekiq"
+  # post 'sites/reorder', to: 'sites#reorder', as: :'reorder_site'
+  # get "account/sites/:id", to: "account#sites", as: :"account_site"
+  
+
+
 
   # This is helpful to have around when working with shallow routes and complicated model namespacing. We don't use this
   # by default, but sometimes Super Scaffolding will generate routes that use this for `only` and `except` options.
@@ -28,8 +33,23 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :account do
+    resources :pages
+    resources :sites
+    resources :teams
+    # resources :goals
+    resources :blocks
+  end
+
   namespace :api do
-    draw "api/v1"
+    namespace :v1 do
+      resources :pages
+      resources :sites
+      resources :teams
+      # resources :goals
+      resources :blocks
+    end
+    # draw "api/v1"
     # 🚅 super scaffolding will insert new api versions above this line.
   end
 
@@ -39,6 +59,8 @@ Rails.application.routes.draw do
       namespace :onboarding do
         # routes for standard onboarding steps are configured in the `bullet_train` gem, but you can add more here.
       end
+      # end
+      # end
 
       # user specific resources.
       resources :users, extending do
@@ -66,7 +88,45 @@ Rails.application.routes.draw do
         namespace :integrations do
           # 🚅 super scaffolding will insert new integration installations above this line.
         end
-      end
+      # end
+        resources :projects do
+          resources :goals, concerns: [:sortable]
+          resources :sites, concerns: [:sortable]
+          resources :blocks, concerns: [:sortable]
+        end
+
+        namespace :projects do
+          resources :tags
+        end
+
+        resources :entries
+        # resources :sites do
+        #   member do
+        #   patch :reorder
+        # end
+        # end
+        resources :sites do
+          post 'reorder', on: :collection
+        end
+        # resources :sites do
+        #   patch :save_sort_order, on: :collection
+        # end
+        end
+
+        # resources :project do
+        #   post 'reorder', on: :collection
+        # end
+
+        # resources :offices do
+        #   resources :folder
+        # end
+
+        # resources :projects do
+        #   resources :blocks do
+        #     post :reorder, on: :collection
+        #   end
+        # end
+      # end
     end
   end
 end

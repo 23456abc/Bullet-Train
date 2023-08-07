@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_31_003438) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_27_064818) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,6 +59,50 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_003438) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "blocks", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.integer "sort_order"
+    t.string "name"
+    t.text "path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_blocks_on_project_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "entries", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.string "entryable_type", null: false
+    t.bigint "entryable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["entryable_type", "entryable_id"], name: "index_entries_on_entryable"
+    t.index ["team_id"], name: "index_entries_on_team_id"
+  end
+
+  create_table "folders", force: :cascade do |t|
+    t.bigint "office_id", null: false
+    t.integer "sort_order"
+    t.string "name"
+    t.text "path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_folders_on_office_id"
+  end
+
+  create_table "goals", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_goals_on_project_id"
   end
 
   create_table "integrations_stripe_installations", force: :cascade do |t|
@@ -118,6 +162,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_003438) do
     t.index ["membership_id"], name: "index_tangible_things_reassignments_on_membership_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.string "subject"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "oauth_access_grants", force: :cascade do |t|
     t.bigint "resource_owner_id", null: false
     t.bigint "application_id", null: false
@@ -175,6 +225,53 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_003438) do
     t.index ["user_id"], name: "index_oauth_stripe_accounts_on_user_id"
   end
 
+  create_table "offices", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_offices_on_team_id"
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.bigint "sites_id", null: false
+    t.integer "sort_order"
+    t.string "name"
+    t.text "path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sites_id"], name: "index_pages_on_sites_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "description"
+    t.string "status", default: "planned"
+    t.bigint "lead_id"
+    t.index ["lead_id"], name: "index_projects_on_lead_id"
+    t.index ["team_id"], name: "index_projects_on_team_id"
+  end
+
+  create_table "projects_applied_tags", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_projects_applied_tags_on_project_id"
+    t.index ["tag_id"], name: "index_projects_applied_tags_on_tag_id"
+  end
+
+  create_table "projects_tags", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_projects_tags_on_team_id"
+  end
+
   create_table "scaffolding_absolutely_abstract_creative_concepts", force: :cascade do |t|
     t.bigint "team_id", null: false
     t.string "name"
@@ -225,6 +322,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_003438) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["membership_id"], name: "index_tangible_things_assignments_on_membership_id"
     t.index ["tangible_thing_id"], name: "index_tangible_things_assignments_on_tangible_thing_id"
+  end
+
+  create_table "sites", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.string "name"
+    t.integer "sort_order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_sites_on_team_id"
   end
 
   create_table "teams", id: :serial, force: :cascade do |t|
@@ -340,6 +446,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_003438) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "blocks", "projects"
+  add_foreign_key "entries", "teams"
+  add_foreign_key "folders", "offices"
+  add_foreign_key "goals", "projects"
   add_foreign_key "integrations_stripe_installations", "oauth_stripe_accounts"
   add_foreign_key "integrations_stripe_installations", "teams"
   add_foreign_key "invitations", "teams"
@@ -355,12 +465,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_003438) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_applications", "teams"
   add_foreign_key "oauth_stripe_accounts", "users"
+  add_foreign_key "offices", "teams"
+  add_foreign_key "pages", "sites", column: "sites_id"
+  add_foreign_key "projects", "memberships", column: "lead_id"
+  add_foreign_key "projects", "teams"
+  add_foreign_key "projects_applied_tags", "projects"
+  add_foreign_key "projects_applied_tags", "projects_tags", column: "tag_id"
+  add_foreign_key "projects_tags", "teams"
   add_foreign_key "scaffolding_absolutely_abstract_creative_concepts", "teams"
   add_foreign_key "scaffolding_absolutely_abstract_creative_concepts_collaborators", "memberships"
   add_foreign_key "scaffolding_absolutely_abstract_creative_concepts_collaborators", "scaffolding_absolutely_abstract_creative_concepts", column: "creative_concept_id"
   add_foreign_key "scaffolding_completely_concrete_tangible_things", "scaffolding_absolutely_abstract_creative_concepts", column: "absolutely_abstract_creative_concept_id"
   add_foreign_key "scaffolding_completely_concrete_tangible_things_assignments", "memberships"
   add_foreign_key "scaffolding_completely_concrete_tangible_things_assignments", "scaffolding_completely_concrete_tangible_things", column: "tangible_thing_id"
+  add_foreign_key "sites", "teams"
   add_foreign_key "users", "oauth_applications", column: "platform_agent_of_id"
   add_foreign_key "webhooks_outgoing_endpoints", "scaffolding_absolutely_abstract_creative_concepts"
   add_foreign_key "webhooks_outgoing_endpoints", "teams"

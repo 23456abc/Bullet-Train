@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Application</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_pack_tag 'application' %>
+  <%= javascript_include_tag "controllers/sortable-wrapper_controller" %>
+  <%= javascript_include_tag "controllers/confirm-reorder_controller" %>
+</head>
+<body>
+    <%= yield %>
+</body>
+</html>

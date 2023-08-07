@@ -1,0 +1,79 @@
+<% blocks = blocks.accessible_by(current_ability) %>
+<% project = @project %>
+<% context ||= project %>
+<% collection ||= :blocks %>
+<% hide_actions ||= false %>
+<% hide_back ||= false %>
+
+<% pagy ||= nil %>
+<% pagy, blocks = pagy(blocks, page_param: :blocks_page) unless pagy %>
+
+<%= action_model_select_controller do %>
+  <% updates_for context, collection do %>
+    <%= render 'account/shared/box', pagy: pagy do |box| %>
+      <% box.title t(".contexts.#{context.class.name.underscore}.header") %>
+      <% box.description do %>
+        <%= t(".contexts.#{context.class.name.underscore}.description#{"_empty" unless blocks.any?}") %>
+        <%= render "shared/limits/index", model: blocks.model %>
+      <% end %>
+
+      <% box.table do %>
+        <% if blocks.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <%= render "shared/tables/select_all" %>
+                <th><%= t('.fields.name.heading') %></th>
+                <th><%= t('.fields.path.heading') %></th>
+                <%# 🚅 super scaffolding will insert new field headers above this line. %>
+                <th><%= t('.fields.created_at.heading') %></th>
+                <th class="text-right"></th>
+              </tr>
+            </thead>
+            <tbody data-controller="sortable"
+                  <%# data-sortable-wrapper-target="sortable" %>
+                  <%# data-action="sortable:drop->confirm-reorder#requestConfirmation sortable:drag->confirm-reorder#prepareForRevertOnCancel save-sort-order->sortable#saveSortOrder"
+                  data-confirm-reorder-target="sortable" %>
+                  data-sortable-reorder-path-value="<%= url_for [:reorder, :account, context, collection] %>" >
+              <% blocks.each do |block| %>
+                <%= render 'account/blocks/block', block: block, locals: { block: block } %>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      <% end %>
+
+      <% box.actions do %>
+        <% unless hide_actions %>
+          <% if context == project %>
+            <% if can? :create, Block.new(project: project) %>
+              <%= link_to t('.buttons.new'), [:new, :account, project, :block], class: "#{first_button_primary(:block)} new" %>
+            <% end %>
+          <% end %>
+
+          <%# 🚅 super scaffolding will insert new targets one parent action model buttons above this line. %>
+          <%# 🚅 super scaffolding will insert new bulk action model buttons above this line. %>
+            <%= render "shared/bulk_action_select" %>
+
+         <%# <div data-controller="sortable-wrapper">
+            <button data-action="click->sortable-wrapper#saveSortOrder" onclick="saveSortOrder()">Sort</button>
+         </div>  %>
+
+         <%#= form_with url: [:account, @project, :blocks], method: :patch do |form| %>
+           <%#= button_tag "Sort", data: { action: "click->sortable-wrapper#saveSortOrder" } %>
+            <%#= form.submit "Sort" %>
+          <%# end %>
+
+
+          <% unless hide_back %>
+            <%= link_to t('global.buttons.back'), [:account, context], class: "#{first_button_primary(:block)} back" %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% box.raw_footer do %>
+        <%# 🚅 super scaffolding will insert new action model index views above this line. %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

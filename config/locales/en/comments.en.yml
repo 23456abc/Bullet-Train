@@ -1,0 +1,13 @@
+en:
+  comments: &comments
+    fields:
+      content:
+        _: &content Content
+        label: *content
+        heading: *content
+  account:
+    comments: *comments
+  activerecord:
+    attributes:
+      comment:
+        content: *content

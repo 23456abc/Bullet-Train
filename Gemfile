@@ -14,6 +14,11 @@ gem "rails", "~> 7.0.0"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
+gem 'acts_as_list'
+
+
+# gem "overmind"
+
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
 
@@ -109,6 +114,7 @@ gem "bullet_train-themes"
 gem "bullet_train-themes-light"
 gem "bullet_train-integrations"
 gem "bullet_train-integrations-stripe"
+
 
 # Optional support packages.
 gem "bullet_train-sortable"

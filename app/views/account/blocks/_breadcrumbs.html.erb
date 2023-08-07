@@ -1,0 +1,8 @@
+<% block ||= @block %>
+<% project ||= @project || block&.project %>
+<%= render 'account/projects/breadcrumbs', project: project %>
+<%= render 'account/shared/breadcrumb', label: t('.label'), url: [:account, project, :blocks] %>
+<% if block&.persisted? %>
+  <%= render 'account/shared/breadcrumb', label: block.label_string, url: [:account, block] %>
+<% end %>
+<%= render 'account/shared/breadcrumbs/actions', only_for: 'blocks' %>

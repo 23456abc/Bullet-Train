@@ -1,0 +1,95 @@
+en:
+  entries: &entries
+    label: &label Entries
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-puzzle-piece ti ti-gift
+    buttons: &buttons
+      new: Add New Entry
+      create: Create Entry
+      edit: Edit Entry
+      update: Update Entry
+      destroy: Remove Entry
+      next: Next Step
+      shorthand:
+        edit: Edit
+        destroy: Delete
+      confirmations:
+        # TODO customize for your use-case.
+        destroy: Are you sure you want to remove %{entry_name}? This will also remove any child resources and can't be undone.
+    fields: &fields
+      id:
+        heading: Entry ID
+      team_id:
+        heading: Team ID
+      entryable_type:
+        _: &entryable_type Entryable Type
+        name: &entryable_type Entry Type
+        label: What type of entry you want?
+        heading: *entryable_type
+        options:
+          "Message": Message
+          "Comment": Comment
+      # 🚅 super scaffolding will insert new fields above this line.
+      created_at:
+        _: &created_at Added
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Updated
+        label: *updated_at
+        heading: *updated_at
+    api:
+      collection_actions: "Collection Actions for Entries"
+      index: "List Entries"
+      create: "Add a New Entry"
+      member_actions: "Actions for an Individual Entry"
+      show: "Retrieve a Entry"
+      update: "Update a Entry"
+      destroy: "Delete a Entry"
+      fields: *fields
+    index:
+      section: "%{teams_possessive} Entries"
+      contexts:
+        team:
+          header: Entries
+          description: Below is a list of Entries that have been added for %{team_name}.
+          description_empty: No Entries have been added for %{team_name}.
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{entry_name}"
+      header: Entry Details
+      description: Below are the details we have for %{entry_name}.
+      manage_description: You'll also find options for updating these details or removing %{entry_name} from %{team_name} entirely.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "New Entry for %{team_name}"
+      header: New Entry Details
+      description: Please provide the details of the new Entry you'd like to add to %{team_name}.
+      form: *form
+      buttons: *buttons
+    edit:
+      section: "%{entry_name}"
+      header: Edit Entry Details
+      description: You can update the details or settings for %{entry_name} below.
+      form: *form
+    notifications:
+      created: Entry was successfully created.
+      updated: Entry was successfully updated.
+      destroyed: Entry was successfully destroyed.
+  account:
+    entries: *entries
+  activerecord:
+    attributes:
+      entry:
+        entryable_type: *entryable_type
+        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        created_at: *created_at
+        updated_at: *updated_at

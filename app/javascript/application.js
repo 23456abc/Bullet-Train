@@ -9,6 +9,20 @@ import * as ActiveStorage from "@rails/activestorage"
 import "@hotwired/turbo-rails"
 import "./controllers"
 import "./channels"
+import "stimulus"
+import Sortable from 'sortablejs';
+import Stimulus from 'stimulus';
+import "./concerns"
+// export * from './controllers'
+// import "controllers/sortable_controller"
+
+import { Application } from "@hotwired/stimulus";
+// import SortableController from "controllers/sortable-wrapper_controller";
+// import SortableController from "controllers/sortable_controller";
+// import SortableController from "controllers/confirm-reorder_controller";
+
+const application = Application.start();
+application.register("sortable", SortableController);
 
 Rails.start()
 ActiveStorage.start()

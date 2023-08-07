@@ -1,0 +1,94 @@
+en:
+  blocks: &blocks
+    label: &label Blocks
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-puzzle-piece
+    buttons: &buttons
+      new: Add New Block
+      create: Create Block
+      edit: Edit Block
+      update: Update Block
+      destroy: Remove Block
+      shorthand:
+        edit: Edit
+        destroy: Delete
+      confirmations:
+        # TODO customize for your use-case.
+        destroy: Are you sure you want to remove %{block_name}? This will also remove any child resources and can't be undone.
+    fields: &fields
+      id:
+        heading: Block ID
+      project_id:
+        heading: Project ID
+      name:
+        _: &name Name
+        label: *name
+        heading: *name
+      path:
+        _: &path Path
+        label: *path
+        heading: *path
+      # 🚅 super scaffolding will insert new fields above this line.
+      created_at:
+        _: &created_at Added
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Updated
+        label: *updated_at
+        heading: *updated_at
+    api:
+      collection_actions: "Collection Actions for Blocks"
+      index: "List Blocks"
+      create: "Add a New Block"
+      member_actions: "Actions for an Individual Block"
+      show: "Retrieve a Block"
+      update: "Update a Block"
+      destroy: "Delete a Block"
+      fields: *fields
+    index:
+      section: "%{projects_possessive} Blocks"
+      contexts:
+        project:
+          header: Blocks
+          description: Below is a list of Blocks that have been added for %{project_name}.
+          description_empty: No Blocks have been added for %{project_name}.
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{block_name}"
+      header: Block Details
+      description: Below are the details we have for %{block_name}.
+      manage_description: You'll also find options for updating these details or removing %{block_name} from %{project_name} entirely.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "New Block for %{project_name}"
+      header: New Block Details
+      description: Please provide the details of the new Block you'd like to add to %{project_name}.
+      form: *form
+    edit:
+      section: "%{block_name}"
+      header: Edit Block Details
+      description: You can update the details or settings for %{block_name} below.
+      form: *form
+    notifications:
+      created: Block was successfully created.
+      updated: Block was successfully updated.
+      destroyed: Block was successfully destroyed.
+  account:
+    blocks: *blocks
+  activerecord:
+    attributes:
+      block:
+        name: *name
+        path: *path
+        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        created_at: *created_at
+        updated_at: *updated_at

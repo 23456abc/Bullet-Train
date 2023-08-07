@@ -1,0 +1,30 @@
+<% cancel_path ||= entry.persisted? ? [:account, entry] : [:account, @team, :entries] %>
+
+<%= form_with model: entry, url: (entry.persisted? ? [:account, entry] : [:account, @team, :entries]), local: true, class: 'form' do |form| %>
+  <%= render "shared/limits/form", form: form, cancel_path: cancel_path do %>
+    <%= render 'account/shared/forms/errors', form: form %>
+
+    <% with_field_settings form: form do %>
+      <%= form.hidden_field :entryable_type %>
+      <%#= render 'shared/fields/buttons', method: :entryable_type, html_options: {autofocus: true} %>
+      <%# 🚅 super scaffolding will insert new fields above this line. %>
+    <% end %>
+      <%= form.fields_for :entryable, entry.entryable do |entryable_form| %>
+        <%= entryable_form.hidden_field :id %>
+        <% with_field_settings form: entryable_form do %>
+          <% case entryable_form.object %>
+          <% when Message %>
+            <%= render 'shared/fields/text_field', method: :subject %>
+          <% when Comment %>
+            <%= render 'shared/fields/trix_editor', method: :content %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+
+    <div class="buttons">
+      <%= form.submit (form.object.persisted? ? t('.buttons.update') : t('.buttons.create')), class: "button" %>
+      <%= link_to t('global.buttons.cancel'), cancel_path, class: "button-secondary" %>
+    </div>
+  <% end %>
+<% end %>
